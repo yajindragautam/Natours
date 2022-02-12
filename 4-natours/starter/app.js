@@ -3,7 +3,7 @@ const { get } = require('https');
 const morgan = require('morgan');
 //Importing Routes
 const AppError = require('./utils/appError');
-const globleErrorHandler = require('./controllers/errorController')
+const globleErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRouters');
 const tourRouter = require('./routes/tourRouters');
 
@@ -34,7 +34,7 @@ app.use('/api/v1/tours', tourRouter); //  Router for Tours
 app.use('/api/v1/users', userRouter);
 // Hnadle Unhandle Routes
 app.all('*', (req, res, next) => {
-  next( new AppError(`Cn't find ${req.originalUrl} on the server`, 404));
+  next(new AppError(`Cn't find ${req.originalUrl} on the server`, 404));
 });
 // Golble Error Handeling Middleware
 app.use(globleErrorHandler);

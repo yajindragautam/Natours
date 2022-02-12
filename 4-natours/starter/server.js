@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
-
+// Handling uncaughtException Rejection
+process.on('uncaughtException', (err) => {
+  console.log('UNHANDLED REJECTION 🔥 Shutting Down Server..!');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
 const app = require('./app');
 
 const DB = process.env.DATABASE.replace(
@@ -32,8 +37,15 @@ mongoose
 
 //testTour.save()  ==> to store data inti db
 
-
 const port = process.env.port || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App Running on port http://127.0.0.1:${port}..`);
+});
+// Handling Un-handle Rejection
+process.on('unhandledRejection', (err) => {
+  console.log('UNHANDLED REJECTION 🔥 Shutting Down Server..!');
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
 });
