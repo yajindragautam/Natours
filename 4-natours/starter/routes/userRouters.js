@@ -1,9 +1,11 @@
 const express = require('express');
 // Importing Handlers- Controller
 const userController = require('./../controllers/userController');
-
+const authController = require('./../controllers/authController');
 const router = express.Router();
 // ROUTES - users
+//! Signup New User
+router.post('/signup', authController.signup);
 router
   .route('/')
   .get(userController.getAllUsers)
