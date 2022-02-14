@@ -6,6 +6,8 @@ const router = express.Router();
 // ROUTES - users
 //! Signup New User
 router.post('/signup', authController.signup);
+//! Login
+router.post('/login', authController.login);
 router
   .route('/')
   .get(userController.getAllUsers)

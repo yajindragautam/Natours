@@ -22,7 +22,6 @@ exports.aliasTopTours = (req, res, next) => {
 //Router of tours -GET REQUEST - Read data
 exports.getTours = catchAsync(async (req, res, next) => {
   // use TRY - CATCH to fetch erros
-  console.log(req.query);
   // BUILD QUERY
   //EXECUTE QUERY
   const features = new APIFeatures(Tour.find(), req.query)
@@ -57,7 +56,7 @@ exports.getTours = catchAsync(async (req, res, next) => {
 });
 
 // Read data from ID: Response to URL parameters: 127.0.0.1/tours/5 - GET METHOD
-exports.getTour = catchAsync(async (req, res,next) => {
+exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
 
   if (!tour) {
@@ -83,7 +82,7 @@ exports.createTour = catchAsync(async (req, res, next) => {
 });
 
 // Handeling PATCH request
-exports.updateTour = catchAsync(async (req, res,next) => {
+exports.updateTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -111,7 +110,7 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTourStats = catchAsync(async (req, res,next) => {
+exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
       $match: { ratingAverage: { $gte: 3.4 } },
@@ -126,7 +125,7 @@ exports.getTourStats = catchAsync(async (req, res,next) => {
       },
     },
   ]);
-  console.log(stats);
+  //console.log(stats);
   // Response
   res.status(200).json({
     status: 'success',
@@ -137,7 +136,7 @@ exports.getTourStats = catchAsync(async (req, res,next) => {
 });
 
 // Get Monthly Pan
-exports.getMonthlyPlan = catchAsync(async (req, res,next) => {
+exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1;
   const plan = await Tour.aggregate([
     {
