@@ -41,6 +41,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const token = signToken(user._id);
   res.status(200).json({
     status: 'success',
+    roles: user.roles,
     token,
   });
 });
@@ -86,6 +87,36 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;
-  res.locals.user = currentUser;
+  // res.locals.user = currentUser;
   next();
 });
+
+// Aithorize User Role and Permission
+exports.restricetTo = (...roles) => {
+  return (req, res, next) => {
+    // roles ["admin","lead-guide"]
+    if (!roles.includes(req.user.roles)) {
+      return next(
+        new AppError(
+          'You do not have permission to perform this action..!',
+          403
+        )
+      );
+    }
+
+    next();
+  };
+};
+
+//! Forgot Password
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  // 1) Get user based on email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('No user found with that email', 404));
+  }
+  // 2) Generate the random reset token
+  // 3) Send it to the user's email
+});
+//! Reset Password
+exports.resetPassword = (req, res, next) => {};
