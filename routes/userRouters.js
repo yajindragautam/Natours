@@ -12,7 +12,7 @@ router.post('/login', authController.login);
 //! Forgot Password
 router.post('/forgotPassword', authController.forgotPassword);
 //! Reset Password
-router.post('/resetPassword', authController.resetPassword);
+router.patch('/resetPassword/:token', authController.resetPassword);
 
 router
   .route('/')
